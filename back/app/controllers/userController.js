@@ -41,7 +41,9 @@ const userController = {
                 if (match) {
                     const message = 'Vous êtes connecté'
                     const secret = process.env.SECRET;
-                    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, secret, { expiresIn: '1h' });
+                    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, secret, { 
+                      expiresIn: '3m'
+                     });
                     res.json({ message, user, token });
                 } else {
                     const message = 'Mot de passe incorrect'

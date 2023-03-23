@@ -1,10 +1,17 @@
 import React, { Fragment, useContext, useRef, useState } from "react";
 import { ModalContext } from "../../context/ModalContext";
 import { signIn } from "../../service/userServices/userService";
+import { LoginContext } from "../../context/LoginContext";
+
 
 
 
 export default function SignInModal() {
+
+   /* importer le contexte login */
+   const { handleLogin, isLogged, setIsLogged  } = useContext(LoginContext);
+
+  //* Modal *//
 
   const { modalState, toggleModal } = useContext(ModalContext);
 
@@ -28,18 +35,21 @@ export default function SignInModal() {
 
       };
 
-      
-
       const response = await signIn(user);
       if(response) {
+        setIsLogged({
+          isLogged: true,
+          jwt: response.token
+        })
+
+        /* enregit=strer le token dans le local storage */
+        localStorage.setItem("token", response.token);
         closeModal();
       }
 
     } catch (error) {
       console.log(error);
-    }
-
-    
+    } 
   }
 
   const closeModal = () => {
